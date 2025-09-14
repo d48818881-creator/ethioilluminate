@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Illuminate Members Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #111;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(
+                    circle,
+                    rgba(139, 0, 0, 0.7) 0%,
+                    rgba(0, 0, 0, 0.9) 70%
+                ),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath fill='%23ff0000' d='M100 20 L125 75 L185 75 L135 110 L155 165 L100 130 L45 165 L65 110 L15 75 L75 75 Z' transform='rotate(180 100 100)'/%3E%3Ctext x='100' y='120' font-family='Arial' font-size='30' fill='%23ff0000' text-anchor='middle'%3E666%3C/text%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.15;
+            z-index: -1;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: rgba(20, 20, 20, 0.9);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            border: 1px solid #800;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #ff0000;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        
+        .support {
+            background-color: rgba(139, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+            text-align: center;
+            border: 1px solid #a00;
+        }
+        
+        .language-tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background-color: #333;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background-color: #800;
+            color: #fff;
+        }
+        
+        .form-section {
+            display: none;
+        }
+        
+        .form-section.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ff6666;
+            font-weight: bold;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #222;
+            color: #fff;
+            font-size: 16px;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #f00;
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+        }
+        
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .file-upload-input {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            height: 100%;
+        }
+        
+        .file-upload-button {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #800;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .file-upload-button:hover {
+            background-color: #a00;
+        }
+        
+        .submit-btn {
+            background-color: #c00;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #f00;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+        
+        .thank-you-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .thank-you-message h2 {
+            font-size: 3rem;
+            color: #f00;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+            margin-bottom: 20px;
+        }
+        
+        .thank-you-message p {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+        
+        .thank-you-message .return-btn {
+            background-color: #800;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            input, select, textarea {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>New Illuminate Members Form</h1>
+            <p class="subtitle">Join the enlightened ones</p>
+            <div class="support">
+                <strong>Support Phone: <a href="tel:251946660837">251946660837</a></strong>
+            </div>
+        </header>
+        
+        <div class="language-tabs">
+            <div class="tab active" data-lang="english">English</div>
+            <div class="tab" data-lang="amharic">Amharic</div>
+        </div>
+        
+        <form id="membership-form">
+            <!-- English Form -->
+            <div class="form-section active" id="english-form">
+                <div class="form-group">
+                    <label for="id-image">ID Image Upload</label>
+                    <div class="file-upload">
+                        <div class="file-upload-button">Choose File</div>
+                        <input type="file" id="id-image" class="file-upload-input" accept="image/*" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" id="fullname" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="sex">Sex</label>
+                    <select id="sex" required>
+                        <option value="">Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" min="18" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea id="address" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="work">Work/Occupation</label>
+                    <input type="text" id="work" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bank-account">Bank Account Number</label>
+                    <input type="text" id="bank-account" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+            </div>
+            
+            <!-- Amharic Form -->
+            <div class="form-section" id="amharic-form">
+                <div class="form-group">
+                    <label for="id-image-am">የመታወቂያ ምስል ስቀል</label>
+                    <div class="file-upload">
+                        <div class="file-upload-button">ፋይል ምረጥ</div>
+                        <input type="file" id="id-image-am" class="file-upload-input" accept="image/*" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fullname-am">ሙሉ ስም</label>
+                    <input type="text" id="fullname-am" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="sex-am">ጾታ</label>
+                    <select id="sex-am" required>
+                        <option value="">ምረጥ</option>
+                        <option value="male">ወንድ</option>
+                        <option value="female">ሴት</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="age-am">እድሜ</label>
+                    <input type="number" id="age-am" min="18" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address-am">አድራሻ</label>
+                    <textarea id="address-am" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dob-am">የልደት ቀን</label>
+                    <input type="date" id="dob-am" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="work-am">ስራ</label>
+                    <input type="text" id="work-am" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bank-account-am">የባንክ አካውንት ቁጥር</label>
+                    <input type="text" id="bank-account-am" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone-am">ስልክ ቁጥር</label>
+                    <input type="tel" id="phone-am" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn">Submit Application</button>
+        </form>
+        
+        <div class="thank-you-message" id="thank-you">
+            <h2>THANK YOU</h2>
+            <p>Your application has been received. We will contact you soon.</p>
+            <button class="return-btn" id="return-btn">Submit Another Application</button>
+        </div>
+    </div>
+    
+    <footer>
+        <p>New Illuminate Society © 2023</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Language tabs functionality
+            const tabs = document.querySelectorAll('.tab');
+            const formSections = document.querySelectorAll('.form-section');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding form
+                    formSections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === `${lang}-form`) {
+                            section.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // Form submission
+            const form = document.getElementById('membership-form');
+            const thankYouMessage = document.getElementById('thank-you');
+            const returnBtn = document.getElementById('return-btn');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Hide form and show thank you message
+                form.style.display = 'none';
+                thankYouMessage.style.display = 'block';
+            });
+            
+            returnBtn.addEventListener('click', function() {
+                // Reset form and show it again
+                form.reset();
+                form.style.display = 'block';
+                thankYouMessage.style.display = 'none';
+            });
+            
+            // File upload input styling
+            const fileInputs = document.querySelectorAll('.file-upload-input');
+            fileInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const button = this.previousElementSibling;
+                    if (this.files.length > 0) {
+                        button.textContent = this.files[0].name;
+                    } else {
+                        button.textContent = 'Choose File';
+                    }
+                });
+            });
+            
+            // Sync form fields between languages
+            const syncFields = [
+                {en: 'fullname', am: 'fullname-am'},
+                {en: 'sex', am: 'sex-am'},
+                {en: 'age', am: 'age-am'},
+                {en: 'address', am: 'address-am'},
+                {en: 'dob', am: 'dob-am'},
+                {en: 'work', am: 'work-am'},
+                {en: 'bank-account', am: 'bank-account-am'},
+                {en: 'phone', am: 'phone-am'}
+            ];
+            
+            syncFields.forEach(field => {
+                const enField = document.getElementById(field.en);
+                const amField = document.getElementById(field.am);
+                
+                if (enField && amField) {
+                    enField.addEventListener('input', () => {
+                        amField.value = enField.value;
+                    });
+                    
+                    amField.addEventListener('input', () => {
+                        enField.value = amField.value;
+                    });
+                }
+            });
+            
+            // Sync file inputs
+            const idImageEn = document.getElementById('id-image');
+            const idImageAm = document.getElementById('id-image-am');
+            
+            idImageEn.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    // Create a new FileList object isn't possible, so we can't directly sync
+                    // But we can update the button text for consistency
+                    const amButton = idImageAm.previousElementSibling;
+                    amButton.textContent = this.files[0].name;
+                }
+            });
+            
+            idImageAm.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    const enButton = idImageEn.previousElementSibling;
+                    enButton.textContent = this.files[0].name;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
